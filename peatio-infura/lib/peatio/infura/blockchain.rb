@@ -9,7 +9,7 @@ module Peatio
       SUCCESS = '0x1'
       FAILED = '0x0'
 
-      DEFAULT_FEATURES = { case_sensitive: false, cash_addr_format: false }.freeze
+    DEFAULT_FEATURES = { case_sensitive: false, cash_addr_format: false }.freeze
 
       def initialize(custom_features = {})
         @features = DEFAULT_FEATURES.merge(custom_features).slice(*SUPPORTED_FEATURES)

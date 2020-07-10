@@ -26,8 +26,8 @@ module Peatio
         end
 
         def register
-          Peatio::Blockchain.registry[:infura] = Infura::Blockchain.new
-          Peatio::Wallet.registry[:infurad] = Infura::Wallet.new
+          Peatio::Blockchain.registry[:infura] = Infura::Blockchain
+          Peatio::Wallet.registry[:infurad] = Infura::Wallet
         end
       end
 

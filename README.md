@@ -29,18 +29,18 @@ Test GEM
 
 	./bin/setup
 	./bin/console
-	client = Peatio::Infura::Client.new('https://rinkeby.infura.io/v3/b5d560f71a4341428acacd4a5b25a8a0','https://rinkeby.infura.io/v3/b5d560f71a4341428acacd4a5b25a8a0')
+	client = Peatio::Infura::Client.new('client = Peatio::Infura::Client.new('https://mainnet.infura.io/v3/186a22c7f0fe4dff998d57a823085ce4','https://mainnet.infura.io/v3/186a22c7f0fe4dff998d57a823085ce4')','client = Peatio::Infura::Client.new('https://mainnet.infura.io/v3/186a22c7f0fe4dff998d57a823085ce4','https://mainnet.infura.io/v3/186a22c7f0fe4dff998d57a823085ce4')
 	client.json_rpc(:eth_blockNumber)
 
 Push GEM
 
-	gem push peatio-infura-0.1.0.gem
+	gem push peatio-infura-0.1.5.gem
 
 
 *others*
 Delete accidentaly added rubygem *if the gem contains password, you should reset all passwords*
 	
-	gem yank -v 0.1.0 peatio-infura
+	gem yank -v 0.1.5 peatio-infura
 
 
 ## Installation

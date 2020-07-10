@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{Gem for extending Peatio plugable system with Infura implementation.}
   spec.description   = %q{Infura Peatio gem which implements Peatio::Blockchain::Abstract & Peatio::Wallet::Abstract.}
-  spec.homepage      = "https://webuniq.com/"
+  spec.homepage      = "https://github.com/irmaster/Peatio-Infura"
   spec.license       = "MIT"
 
   # Specify which files should be added to the gem when it is released.
