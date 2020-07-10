@@ -1,0 +1,20 @@
+- id:                     eth
+  name:                   Ethereum
+  blockchain_key:         eth-mainnet
+  symbol:                 'Ξ'
+  type:                   coin
+  precision:              8
+  base_factor:            1_000_000_000_000_000_000
+  enabled:                true
+  # Deposits with less amount are skipped during blockchain synchronization.
+  # We advise to set value 10 times bigger than the network fee to prevent losses.
+  min_deposit_amount:     0.00021
+  min_collection_amount:  0.00021
+  withdraw_limit_24h:     2.0
+  withdraw_limit_72h:     5.0
+  deposit_fee:            0
+  withdraw_fee:           0
+  position:               5
+  options:
+    gas_limit: 21_000
+    gas_price: 1_000_000_000

@@ -1,0 +1,47 @@
+- name:             Ethereum Deposit Wallet
+  blockchain_key:   eth-mainnet
+  currency_id:      eth
+  # Address where deposits will be collected to.
+  address:          '0xd1bfc7daabbd6aa40a7a1a87464cc93882fa24cb'  # IMPORTANT: Always wrap this value in quotes!
+  kind:             deposit    # Wallet kind (deposit, hot, warm, cold or fee).
+  nsig:             1          # Number of signatures required for performing withdraw.
+  max_balance:      0.0
+  status:           active
+  gateway:          infurad  # Gateway client name.
+  settings:
+    #
+    # infurad gateway client settings.
+    uri:          https://rinkeby.infura.io/v3/INFURA_KEY
+    sign_uri:     http://infura:8545
+
+- name:             Ethereum Hot Wallet
+  blockchain_key:   eth-mainnet
+  currency_id:      eth
+  # Address where deposits will be collected to.
+  address:          '0xd1bfc7daabbd6aa40a7a1a87464cc93882fa2401'  # IMPORTANT: Always wrap this value in quotes!
+  kind:             hot     # Wallet kind (deposit, hot, warm, cold or fee).
+  nsig:             1       # Number of signatures required for performing withdraw.
+  max_balance:      5.0
+  status:           active
+  gateway:          infurad   # Gateway client name.
+  settings:
+    #
+    # infurad gateway client settings.
+    uri:          https://rinkeby.infura.io/v3/INFURA_KEY
+    sign_uri:     http://infura:8545
+
+- name:             Ethereum Warm Wallet
+  blockchain_key:   eth-mainnet
+  currency_id:      eth
+  # Address where deposits will be collected to.
+  address:          '0xd1bfc7daabbd6aa40a7a1a87464cc93882fa24545'  # IMPORTANT: Always wrap this value in quotes!
+  kind:             warm    # Wallet kind (deposit, hot, warm, cold or fee).
+  nsig:             1       # Number of signatures required for performing withdraw.
+  max_balance:      50.0
+  status:           active
+  gateway:          infurad   # Gateway client name.
+  settings:
+    #
+    # infurad gateway client settings.
+    uri:          https://rinkeby.infura.io/v3/INFURA_KEY
+    sign_uri:     http://infura:8545
