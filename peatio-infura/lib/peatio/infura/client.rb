@@ -3,6 +3,10 @@
 require 'memoist'
 require 'faraday'
 require 'better-faraday'
+require 'openssl'
+require 'base16'
+require 'digest/sha3'
+
 
 module Peatio
   module Infura
@@ -25,20 +29,41 @@ module Peatio
         @idle_timeout = idle_timeout
       end
 
+      def eth_address(public_key)
+        s = public_key[2, 128]
+        s.downcase!
+        s = Base16.decode16(s)
+        h = Digest::SHA3.hexdigest(s, 256)
+        '0x' + h[-40..-1]
+      end
+
+      def get_address
+
+        ec = OpenSSL::PKey::EC.new('secp256k1')
+        ec.generate_key
+        public_key = ec.public_key.to_bn.to_s(16)
+        private_key = ec.private_key.to_s(16)
+        eth_address = eth_address(public_key)
+        puts "address: #{eth_address}"
+        puts "private_key: #{private_key}"
+      rescue StandardError => e
+        raise Error, e
+      end
+
       def json_rpc(method, params = [])
-      response = connection.post \
-          current_conn.url_prefix,
-          { jsonrpc: '2.0', id: rpc_call_id, method: method, params: params }.to_json,
+        response = connection.post \
+          connection.url_prefix,
+          {jsonrpc: '2.0', id: rpc_call_id, method: method, params: params}.to_json,
           {'Accept' => 'application/json',
            'Content-Type' => 'application/json'}
         response.assert_success!
         response = JSON.parse(response.body)
-      response['error'].tap { |error| raise ResponseError.new(error['code'], error['message']) if error }
+        response['error'].tap { |error| raise ResponseError.new(error['code'], error['message']) if error }
         response.fetch('result')
       rescue Faraday::Error => e
         raise ConnectionError, e
-    rescue StandardError => e
-      raise Error, e
+      rescue StandardError => e
+        raise Error, e
       end
 
       private
@@ -46,6 +71,7 @@ module Peatio
       def rpc_call_id
         @json_rpc_call_id += 1
       end
+
 
       def connection
         @connection ||= Faraday.new(@json_rpc_endpoint) do |f|

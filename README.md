@@ -25,11 +25,13 @@ Build GEM
 	gem build peatio-infura.gemspec
 
 Test GEM
-
+    
+     gem build *.gemspec --output=peatio-infura.gem
+     gem install peatio-infura.gem
 
 	./bin/setup
 	./bin/console
-	client = Peatio::Infura::Client.new('client = Peatio::Infura::Client.new('https://mainnet.infura.io/v3/186a22c7f0fe4dff998d57a823085ce4','https://mainnet.infura.io/v3/186a22c7f0fe4dff998d57a823085ce4')','client = Peatio::Infura::Client.new('https://mainnet.infura.io/v3/186a22c7f0fe4dff998d57a823085ce4','https://mainnet.infura.io/v3/186a22c7f0fe4dff998d57a823085ce4')
+	client = Peatio::Infura::Client.new('https://kovan.infura.io/v3/186a22c7f0fe4dff998d57a823085ce4')
 	client.json_rpc(:eth_blockNumber)
 
 Push GEM

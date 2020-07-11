@@ -2,9 +2,9 @@ module Peatio
   module Infura
     class Wallet < Peatio::Wallet::Abstract
 
-      DEFAULT_ETH_FEE = { gas_limit: 21_000, gas_price: 1_000_000_000 }.freeze
+      DEFAULT_ETH_FEE = {gas_limit: 21_000, gas_price: 1_000_000_000}.freeze
 
-      DEFAULT_ERC20_FEE = { gas_limit: 90_000, gas_price: 1_000_000_000 }.freeze
+      DEFAULT_ERC20_FEE = {gas_limit: 90_000, gas_price: 1_000_000_000}.freeze
 
       def initialize(settings = {})
         @settings = settings
@@ -26,11 +26,7 @@ module Peatio
       end
 
       def create_address!(options = {})
-        secret = options.fetch(:secret) { PasswordGenerator.generate(64) }
-        secret.yield_self do |password|
-          { address: normalize_address(client.json_rpc(:personal_newAccount, [password])),
-            secret:  password }
-        end
+          { address: normalize_address(client.get_address) }
       rescue Infura::Client::Error => e
         raise Peatio::Wallet::ClientError, e
       end
@@ -79,7 +75,7 @@ module Peatio
 
       def load_erc20_balance(address)
         data = abi_encode('balanceOf(address)', normalize_address(address))
-        client.json_rpc(:eth_call, [{ to: contract_address, data: data }, 'latest'])
+        client.json_rpc(:eth_call, [{to: contract_address, data: data}, 'latest'])
             .hex
             .to_d
             .yield_self { |amount| convert_from_base_unit(amount) }
@@ -96,10 +92,10 @@ module Peatio
 
         txid = client.json_rpc(:personal_sendTransaction,
                                [{
-                                    from:     normalize_address(@wallet.fetch(:address)),
-                                    to:       normalize_address(transaction.to_address),
-                                    value:    '0x' + amount.to_s(16),
-                                    gas:      '0x' + options.fetch(:gas_limit).to_i.to_s(16),
+                                    from: normalize_address(@wallet.fetch(:address)),
+                                    to: normalize_address(transaction.to_address),
+                                    value: '0x' + amount.to_s(16),
+                                    gas: '0x' + options.fetch(:gas_limit).to_i.to_s(16),
                                     gasPrice: '0x' + options.fetch(:gas_price).to_i.to_s(16)
                                 }.compact, @wallet.fetch(:secret)])
 
@@ -123,10 +119,10 @@ module Peatio
 
         txid = client.json_rpc(:personal_sendTransaction,
                                [{
-                                    from:     normalize_address(@wallet.fetch(:address)),
-                                    to:       options.fetch(:erc20_contract_address),
-                                    data:     data,
-                                    gas:      '0x' + options.fetch(:gas_limit).to_i.to_s(16),
+                                    from: normalize_address(@wallet.fetch(:address)),
+                                    to: options.fetch(:erc20_contract_address),
+                                    data: data,
+                                    gas: '0x' + options.fetch(:gas_limit).to_i.to_s(16),
                                     gasPrice: '0x' + options.fetch(:gas_price).to_i.to_s(16)
                                 }.compact, @wallet.fetch(:secret)])
 
@@ -168,7 +164,7 @@ module Peatio
         x = value.to_d * @currency.fetch(:base_factor)
         unless (x % 1).zero?
           raise Peatio::WalletClient::Error,
-            "Failed to convert value to base (smallest) unit because it exceeds the maximum precision: " \
+                "Failed to convert value to base (smallest) unit because it exceeds the maximum precision: " \
             "#{value.to_d} - #{x.to_d} must be equal to zero."
         end
         x.to_i
